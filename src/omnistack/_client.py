@@ -46,19 +46,7 @@ __all__ = [
 
 
 class Omnistack(SyncAPIClient):
-    connect: resources.ConnectResource
-    custom_models: resources.CustomModelsResource
-    proxies: resources.ProxiesResource
-    omni_proxies: resources.OmniProxiesResource
     openai: resources.OpenAIResource
-    users: resources.UsersResource
-    workspaces: resources.WorkspacesResource
-    models_dashboard_overview: resources.ModelsDashboardOverviewResource
-    observability: resources.ObservabilityResource
-    models: resources.ModelsResource
-    explore: resources.ExploreResource
-    projects: resources.ProjectsResource
-    home: resources.HomeResource
     with_raw_response: OmnistackWithRawResponse
     with_streaming_response: OmnistackWithStreamedResponse
 
@@ -116,19 +104,7 @@ class Omnistack(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.connect = resources.ConnectResource(self)
-        self.custom_models = resources.CustomModelsResource(self)
-        self.proxies = resources.ProxiesResource(self)
-        self.omni_proxies = resources.OmniProxiesResource(self)
         self.openai = resources.OpenAIResource(self)
-        self.users = resources.UsersResource(self)
-        self.workspaces = resources.WorkspacesResource(self)
-        self.models_dashboard_overview = resources.ModelsDashboardOverviewResource(self)
-        self.observability = resources.ObservabilityResource(self)
-        self.models = resources.ModelsResource(self)
-        self.explore = resources.ExploreResource(self)
-        self.projects = resources.ProjectsResource(self)
-        self.home = resources.HomeResource(self)
         self.with_raw_response = OmnistackWithRawResponse(self)
         self.with_streaming_response = OmnistackWithStreamedResponse(self)
 
@@ -238,19 +214,7 @@ class Omnistack(SyncAPIClient):
 
 
 class AsyncOmnistack(AsyncAPIClient):
-    connect: resources.AsyncConnectResource
-    custom_models: resources.AsyncCustomModelsResource
-    proxies: resources.AsyncProxiesResource
-    omni_proxies: resources.AsyncOmniProxiesResource
     openai: resources.AsyncOpenAIResource
-    users: resources.AsyncUsersResource
-    workspaces: resources.AsyncWorkspacesResource
-    models_dashboard_overview: resources.AsyncModelsDashboardOverviewResource
-    observability: resources.AsyncObservabilityResource
-    models: resources.AsyncModelsResource
-    explore: resources.AsyncExploreResource
-    projects: resources.AsyncProjectsResource
-    home: resources.AsyncHomeResource
     with_raw_response: AsyncOmnistackWithRawResponse
     with_streaming_response: AsyncOmnistackWithStreamedResponse
 
@@ -308,19 +272,7 @@ class AsyncOmnistack(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.connect = resources.AsyncConnectResource(self)
-        self.custom_models = resources.AsyncCustomModelsResource(self)
-        self.proxies = resources.AsyncProxiesResource(self)
-        self.omni_proxies = resources.AsyncOmniProxiesResource(self)
         self.openai = resources.AsyncOpenAIResource(self)
-        self.users = resources.AsyncUsersResource(self)
-        self.workspaces = resources.AsyncWorkspacesResource(self)
-        self.models_dashboard_overview = resources.AsyncModelsDashboardOverviewResource(self)
-        self.observability = resources.AsyncObservabilityResource(self)
-        self.models = resources.AsyncModelsResource(self)
-        self.explore = resources.AsyncExploreResource(self)
-        self.projects = resources.AsyncProjectsResource(self)
-        self.home = resources.AsyncHomeResource(self)
         self.with_raw_response = AsyncOmnistackWithRawResponse(self)
         self.with_streaming_response = AsyncOmnistackWithStreamedResponse(self)
 
@@ -431,78 +383,22 @@ class AsyncOmnistack(AsyncAPIClient):
 
 class OmnistackWithRawResponse:
     def __init__(self, client: Omnistack) -> None:
-        self.connect = resources.ConnectResourceWithRawResponse(client.connect)
-        self.custom_models = resources.CustomModelsResourceWithRawResponse(client.custom_models)
-        self.proxies = resources.ProxiesResourceWithRawResponse(client.proxies)
-        self.omni_proxies = resources.OmniProxiesResourceWithRawResponse(client.omni_proxies)
         self.openai = resources.OpenAIResourceWithRawResponse(client.openai)
-        self.users = resources.UsersResourceWithRawResponse(client.users)
-        self.workspaces = resources.WorkspacesResourceWithRawResponse(client.workspaces)
-        self.models_dashboard_overview = resources.ModelsDashboardOverviewResourceWithRawResponse(
-            client.models_dashboard_overview
-        )
-        self.observability = resources.ObservabilityResourceWithRawResponse(client.observability)
-        self.models = resources.ModelsResourceWithRawResponse(client.models)
-        self.explore = resources.ExploreResourceWithRawResponse(client.explore)
-        self.projects = resources.ProjectsResourceWithRawResponse(client.projects)
-        self.home = resources.HomeResourceWithRawResponse(client.home)
 
 
 class AsyncOmnistackWithRawResponse:
     def __init__(self, client: AsyncOmnistack) -> None:
-        self.connect = resources.AsyncConnectResourceWithRawResponse(client.connect)
-        self.custom_models = resources.AsyncCustomModelsResourceWithRawResponse(client.custom_models)
-        self.proxies = resources.AsyncProxiesResourceWithRawResponse(client.proxies)
-        self.omni_proxies = resources.AsyncOmniProxiesResourceWithRawResponse(client.omni_proxies)
         self.openai = resources.AsyncOpenAIResourceWithRawResponse(client.openai)
-        self.users = resources.AsyncUsersResourceWithRawResponse(client.users)
-        self.workspaces = resources.AsyncWorkspacesResourceWithRawResponse(client.workspaces)
-        self.models_dashboard_overview = resources.AsyncModelsDashboardOverviewResourceWithRawResponse(
-            client.models_dashboard_overview
-        )
-        self.observability = resources.AsyncObservabilityResourceWithRawResponse(client.observability)
-        self.models = resources.AsyncModelsResourceWithRawResponse(client.models)
-        self.explore = resources.AsyncExploreResourceWithRawResponse(client.explore)
-        self.projects = resources.AsyncProjectsResourceWithRawResponse(client.projects)
-        self.home = resources.AsyncHomeResourceWithRawResponse(client.home)
 
 
 class OmnistackWithStreamedResponse:
     def __init__(self, client: Omnistack) -> None:
-        self.connect = resources.ConnectResourceWithStreamingResponse(client.connect)
-        self.custom_models = resources.CustomModelsResourceWithStreamingResponse(client.custom_models)
-        self.proxies = resources.ProxiesResourceWithStreamingResponse(client.proxies)
-        self.omni_proxies = resources.OmniProxiesResourceWithStreamingResponse(client.omni_proxies)
         self.openai = resources.OpenAIResourceWithStreamingResponse(client.openai)
-        self.users = resources.UsersResourceWithStreamingResponse(client.users)
-        self.workspaces = resources.WorkspacesResourceWithStreamingResponse(client.workspaces)
-        self.models_dashboard_overview = resources.ModelsDashboardOverviewResourceWithStreamingResponse(
-            client.models_dashboard_overview
-        )
-        self.observability = resources.ObservabilityResourceWithStreamingResponse(client.observability)
-        self.models = resources.ModelsResourceWithStreamingResponse(client.models)
-        self.explore = resources.ExploreResourceWithStreamingResponse(client.explore)
-        self.projects = resources.ProjectsResourceWithStreamingResponse(client.projects)
-        self.home = resources.HomeResourceWithStreamingResponse(client.home)
 
 
 class AsyncOmnistackWithStreamedResponse:
     def __init__(self, client: AsyncOmnistack) -> None:
-        self.connect = resources.AsyncConnectResourceWithStreamingResponse(client.connect)
-        self.custom_models = resources.AsyncCustomModelsResourceWithStreamingResponse(client.custom_models)
-        self.proxies = resources.AsyncProxiesResourceWithStreamingResponse(client.proxies)
-        self.omni_proxies = resources.AsyncOmniProxiesResourceWithStreamingResponse(client.omni_proxies)
         self.openai = resources.AsyncOpenAIResourceWithStreamingResponse(client.openai)
-        self.users = resources.AsyncUsersResourceWithStreamingResponse(client.users)
-        self.workspaces = resources.AsyncWorkspacesResourceWithStreamingResponse(client.workspaces)
-        self.models_dashboard_overview = resources.AsyncModelsDashboardOverviewResourceWithStreamingResponse(
-            client.models_dashboard_overview
-        )
-        self.observability = resources.AsyncObservabilityResourceWithStreamingResponse(client.observability)
-        self.models = resources.AsyncModelsResourceWithStreamingResponse(client.models)
-        self.explore = resources.AsyncExploreResourceWithStreamingResponse(client.explore)
-        self.projects = resources.AsyncProjectsResourceWithStreamingResponse(client.projects)
-        self.home = resources.AsyncHomeResourceWithStreamingResponse(client.home)
 
 
 Client = Omnistack
