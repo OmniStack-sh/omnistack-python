@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2024-10-17)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/OmniStack-sh/omnistack-python/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** api update ([#8](https://github.com/OmniStack-sh/omnistack-python/issues/8)) ([e99de3b](https://github.com/OmniStack-sh/omnistack-python/commit/e99de3b2bf4700392e95c69e5e5b6eb9842990bd))
+
 ## 0.1.0-alpha.1 (2024-10-17)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/OmniStack-sh/omnistack-python/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)
