@@ -32,7 +32,7 @@ from omnistack import Omnistack
 
 client = Omnistack(
     # This is the default and can be omitted
-    bearer_token=os.environ.get("OMNISTACK_API_KEY"),
+    api_key=os.environ.get("OMNISTACK_API_KEY"),
 )
 
 completion = client.completions.create(
@@ -42,10 +42,10 @@ completion = client.completions.create(
 print(completion.id)
 ```
 
-While you can provide a `bearer_token` keyword argument,
+While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `OMNISTACK_API_KEY="My Bearer Token"` to your `.env` file
-so that your Bearer Token is not stored in source control.
+to add `OMNISTACK_API_KEY="My API Key"` to your `.env` file
+so that your API Key is not stored in source control.
 
 ## Async usage
 
@@ -58,7 +58,7 @@ from omnistack import AsyncOmnistack
 
 client = AsyncOmnistack(
     # This is the default and can be omitted
-    bearer_token=os.environ.get("OMNISTACK_API_KEY"),
+    api_key=os.environ.get("OMNISTACK_API_KEY"),
 )
 
 
