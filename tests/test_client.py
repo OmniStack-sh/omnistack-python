@@ -31,7 +31,7 @@ from omnistack._base_client import (
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-bearer_token = "My Bearer Token"
+api_key = "My API Key"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -53,7 +53,7 @@ def _get_open_connections(client: Omnistack | AsyncOmnistack) -> int:
 
 
 class TestOmnistack:
-    client = Omnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+    client = Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -79,9 +79,9 @@ class TestOmnistack:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(bearer_token="another My Bearer Token")
-        assert copied.bearer_token == "another My Bearer Token"
-        assert self.client.bearer_token == "My Bearer Token"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -101,10 +101,7 @@ class TestOmnistack:
 
     def test_copy_default_headers(self) -> None:
         client = Omnistack(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -138,7 +135,7 @@ class TestOmnistack:
 
     def test_copy_default_query(self) -> None:
         client = Omnistack(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -263,7 +260,7 @@ class TestOmnistack:
 
     def test_client_timeout_option(self) -> None:
         client = Omnistack(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -274,7 +271,7 @@ class TestOmnistack:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
             client = Omnistack(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -284,7 +281,7 @@ class TestOmnistack:
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = Omnistack(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -294,7 +291,7 @@ class TestOmnistack:
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = Omnistack(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -306,17 +303,14 @@ class TestOmnistack:
             async with httpx.AsyncClient() as http_client:
                 Omnistack(
                     base_url=base_url,
-                    bearer_token=bearer_token,
+                    api_key=api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = Omnistack(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -324,7 +318,7 @@ class TestOmnistack:
 
         client2 = Omnistack(
             base_url=base_url,
-            bearer_token=bearer_token,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -336,21 +330,18 @@ class TestOmnistack:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = Omnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(OmnistackError):
             with update_env(**{"OMNISTACK_API_KEY": Omit()}):
-                client2 = Omnistack(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+                client2 = Omnistack(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = Omnistack(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -550,9 +541,7 @@ class TestOmnistack:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = Omnistack(
-            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
-        )
+        client = Omnistack(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -561,20 +550,16 @@ class TestOmnistack:
 
     def test_base_url_env(self) -> None:
         with update_env(OMNISTACK_BASE_URL="http://localhost:5000/from/env"):
-            client = Omnistack(bearer_token=bearer_token, _strict_response_validation=True)
+            client = Omnistack(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
+            Omnistack(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Omnistack(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Omnistack(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -594,14 +579,10 @@ class TestOmnistack:
     @pytest.mark.parametrize(
         "client",
         [
+            Omnistack(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Omnistack(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Omnistack(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -621,14 +602,10 @@ class TestOmnistack:
     @pytest.mark.parametrize(
         "client",
         [
+            Omnistack(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Omnistack(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-            ),
-            Omnistack(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -646,7 +623,7 @@ class TestOmnistack:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = Omnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -657,7 +634,7 @@ class TestOmnistack:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = Omnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -678,12 +655,7 @@ class TestOmnistack:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            Omnistack(
-                base_url=base_url,
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
-            )
+            Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -692,12 +664,12 @@ class TestOmnistack:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = Omnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = Omnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -725,7 +697,7 @@ class TestOmnistack:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = Omnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = Omnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -836,7 +808,7 @@ class TestOmnistack:
 
 
 class TestAsyncOmnistack:
-    client = AsyncOmnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+    client = AsyncOmnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -864,9 +836,9 @@ class TestAsyncOmnistack:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(bearer_token="another My Bearer Token")
-        assert copied.bearer_token == "another My Bearer Token"
-        assert self.client.bearer_token == "My Bearer Token"
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -886,10 +858,7 @@ class TestAsyncOmnistack:
 
     def test_copy_default_headers(self) -> None:
         client = AsyncOmnistack(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -923,7 +892,7 @@ class TestAsyncOmnistack:
 
     def test_copy_default_query(self) -> None:
         client = AsyncOmnistack(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -1048,7 +1017,7 @@ class TestAsyncOmnistack:
 
     async def test_client_timeout_option(self) -> None:
         client = AsyncOmnistack(
-            base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1059,7 +1028,7 @@ class TestAsyncOmnistack:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncOmnistack(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1069,7 +1038,7 @@ class TestAsyncOmnistack:
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncOmnistack(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1079,7 +1048,7 @@ class TestAsyncOmnistack:
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncOmnistack(
-                base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1091,17 +1060,14 @@ class TestAsyncOmnistack:
             with httpx.Client() as http_client:
                 AsyncOmnistack(
                     base_url=base_url,
-                    bearer_token=bearer_token,
+                    api_key=api_key,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = AsyncOmnistack(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -1109,7 +1075,7 @@ class TestAsyncOmnistack:
 
         client2 = AsyncOmnistack(
             base_url=base_url,
-            bearer_token=bearer_token,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1121,21 +1087,18 @@ class TestAsyncOmnistack:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncOmnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncOmnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(OmnistackError):
             with update_env(**{"OMNISTACK_API_KEY": Omit()}):
-                client2 = AsyncOmnistack(base_url=base_url, bearer_token=None, _strict_response_validation=True)
+                client2 = AsyncOmnistack(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = AsyncOmnistack(
-            base_url=base_url,
-            bearer_token=bearer_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1336,7 +1299,7 @@ class TestAsyncOmnistack:
 
     def test_base_url_setter(self) -> None:
         client = AsyncOmnistack(
-            base_url="https://example.com/from_init", bearer_token=bearer_token, _strict_response_validation=True
+            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -1346,20 +1309,18 @@ class TestAsyncOmnistack:
 
     def test_base_url_env(self) -> None:
         with update_env(OMNISTACK_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncOmnistack(bearer_token=bearer_token, _strict_response_validation=True)
+            client = AsyncOmnistack(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
             AsyncOmnistack(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncOmnistack(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1380,13 +1341,11 @@ class TestAsyncOmnistack:
         "client",
         [
             AsyncOmnistack(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncOmnistack(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1407,13 +1366,11 @@ class TestAsyncOmnistack:
         "client",
         [
             AsyncOmnistack(
-                base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncOmnistack(
                 base_url="http://localhost:5000/custom/path/",
-                bearer_token=bearer_token,
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1431,7 +1388,7 @@ class TestAsyncOmnistack:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncOmnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncOmnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1443,7 +1400,7 @@ class TestAsyncOmnistack:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncOmnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncOmnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1466,10 +1423,7 @@ class TestAsyncOmnistack:
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncOmnistack(
-                base_url=base_url,
-                bearer_token=bearer_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -1480,12 +1434,12 @@ class TestAsyncOmnistack:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncOmnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        strict_client = AsyncOmnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncOmnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=False)
+        client = AsyncOmnistack(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1514,7 +1468,7 @@ class TestAsyncOmnistack:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncOmnistack(base_url=base_url, bearer_token=bearer_token, _strict_response_validation=True)
+        client = AsyncOmnistack(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
