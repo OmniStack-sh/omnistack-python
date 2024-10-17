@@ -48,20 +48,6 @@ __all__ = [
 class Omnistack(SyncAPIClient):
     chats: resources.ChatsResource
     completions: resources.CompletionsResource
-    images: resources.ImagesResource
-    embeddings: resources.EmbeddingsResource
-    audio: resources.AudioResource
-    files: resources.FilesResource
-    uploads: resources.UploadsResource
-    fine_tuning: resources.FineTuningResource
-    models: resources.ModelsResource
-    moderations: resources.ModerationsResource
-    assistants: resources.AssistantsResource
-    threads: resources.ThreadsResource
-    vector_stores: resources.VectorStoresResource
-    batches: resources.BatchesResource
-    organization: resources.OrganizationResource
-    projects: resources.ProjectsResource
     with_raw_response: OmnistackWithRawResponse
     with_streaming_response: OmnistackWithStreamedResponse
 
@@ -106,7 +92,7 @@ class Omnistack(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("OMNISTACK_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.openai.com/v1"
+            base_url = f"https://api.omnistack.sh/openai/v1"
 
         super().__init__(
             version=__version__,
@@ -121,20 +107,6 @@ class Omnistack(SyncAPIClient):
 
         self.chats = resources.ChatsResource(self)
         self.completions = resources.CompletionsResource(self)
-        self.images = resources.ImagesResource(self)
-        self.embeddings = resources.EmbeddingsResource(self)
-        self.audio = resources.AudioResource(self)
-        self.files = resources.FilesResource(self)
-        self.uploads = resources.UploadsResource(self)
-        self.fine_tuning = resources.FineTuningResource(self)
-        self.models = resources.ModelsResource(self)
-        self.moderations = resources.ModerationsResource(self)
-        self.assistants = resources.AssistantsResource(self)
-        self.threads = resources.ThreadsResource(self)
-        self.vector_stores = resources.VectorStoresResource(self)
-        self.batches = resources.BatchesResource(self)
-        self.organization = resources.OrganizationResource(self)
-        self.projects = resources.ProjectsResource(self)
         self.with_raw_response = OmnistackWithRawResponse(self)
         self.with_streaming_response = OmnistackWithStreamedResponse(self)
 
@@ -246,20 +218,6 @@ class Omnistack(SyncAPIClient):
 class AsyncOmnistack(AsyncAPIClient):
     chats: resources.AsyncChatsResource
     completions: resources.AsyncCompletionsResource
-    images: resources.AsyncImagesResource
-    embeddings: resources.AsyncEmbeddingsResource
-    audio: resources.AsyncAudioResource
-    files: resources.AsyncFilesResource
-    uploads: resources.AsyncUploadsResource
-    fine_tuning: resources.AsyncFineTuningResource
-    models: resources.AsyncModelsResource
-    moderations: resources.AsyncModerationsResource
-    assistants: resources.AsyncAssistantsResource
-    threads: resources.AsyncThreadsResource
-    vector_stores: resources.AsyncVectorStoresResource
-    batches: resources.AsyncBatchesResource
-    organization: resources.AsyncOrganizationResource
-    projects: resources.AsyncProjectsResource
     with_raw_response: AsyncOmnistackWithRawResponse
     with_streaming_response: AsyncOmnistackWithStreamedResponse
 
@@ -304,7 +262,7 @@ class AsyncOmnistack(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("OMNISTACK_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.openai.com/v1"
+            base_url = f"https://api.omnistack.sh/openai/v1"
 
         super().__init__(
             version=__version__,
@@ -319,20 +277,6 @@ class AsyncOmnistack(AsyncAPIClient):
 
         self.chats = resources.AsyncChatsResource(self)
         self.completions = resources.AsyncCompletionsResource(self)
-        self.images = resources.AsyncImagesResource(self)
-        self.embeddings = resources.AsyncEmbeddingsResource(self)
-        self.audio = resources.AsyncAudioResource(self)
-        self.files = resources.AsyncFilesResource(self)
-        self.uploads = resources.AsyncUploadsResource(self)
-        self.fine_tuning = resources.AsyncFineTuningResource(self)
-        self.models = resources.AsyncModelsResource(self)
-        self.moderations = resources.AsyncModerationsResource(self)
-        self.assistants = resources.AsyncAssistantsResource(self)
-        self.threads = resources.AsyncThreadsResource(self)
-        self.vector_stores = resources.AsyncVectorStoresResource(self)
-        self.batches = resources.AsyncBatchesResource(self)
-        self.organization = resources.AsyncOrganizationResource(self)
-        self.projects = resources.AsyncProjectsResource(self)
         self.with_raw_response = AsyncOmnistackWithRawResponse(self)
         self.with_streaming_response = AsyncOmnistackWithStreamedResponse(self)
 
@@ -445,80 +389,24 @@ class OmnistackWithRawResponse:
     def __init__(self, client: Omnistack) -> None:
         self.chats = resources.ChatsResourceWithRawResponse(client.chats)
         self.completions = resources.CompletionsResourceWithRawResponse(client.completions)
-        self.images = resources.ImagesResourceWithRawResponse(client.images)
-        self.embeddings = resources.EmbeddingsResourceWithRawResponse(client.embeddings)
-        self.audio = resources.AudioResourceWithRawResponse(client.audio)
-        self.files = resources.FilesResourceWithRawResponse(client.files)
-        self.uploads = resources.UploadsResourceWithRawResponse(client.uploads)
-        self.fine_tuning = resources.FineTuningResourceWithRawResponse(client.fine_tuning)
-        self.models = resources.ModelsResourceWithRawResponse(client.models)
-        self.moderations = resources.ModerationsResourceWithRawResponse(client.moderations)
-        self.assistants = resources.AssistantsResourceWithRawResponse(client.assistants)
-        self.threads = resources.ThreadsResourceWithRawResponse(client.threads)
-        self.vector_stores = resources.VectorStoresResourceWithRawResponse(client.vector_stores)
-        self.batches = resources.BatchesResourceWithRawResponse(client.batches)
-        self.organization = resources.OrganizationResourceWithRawResponse(client.organization)
-        self.projects = resources.ProjectsResourceWithRawResponse(client.projects)
 
 
 class AsyncOmnistackWithRawResponse:
     def __init__(self, client: AsyncOmnistack) -> None:
         self.chats = resources.AsyncChatsResourceWithRawResponse(client.chats)
         self.completions = resources.AsyncCompletionsResourceWithRawResponse(client.completions)
-        self.images = resources.AsyncImagesResourceWithRawResponse(client.images)
-        self.embeddings = resources.AsyncEmbeddingsResourceWithRawResponse(client.embeddings)
-        self.audio = resources.AsyncAudioResourceWithRawResponse(client.audio)
-        self.files = resources.AsyncFilesResourceWithRawResponse(client.files)
-        self.uploads = resources.AsyncUploadsResourceWithRawResponse(client.uploads)
-        self.fine_tuning = resources.AsyncFineTuningResourceWithRawResponse(client.fine_tuning)
-        self.models = resources.AsyncModelsResourceWithRawResponse(client.models)
-        self.moderations = resources.AsyncModerationsResourceWithRawResponse(client.moderations)
-        self.assistants = resources.AsyncAssistantsResourceWithRawResponse(client.assistants)
-        self.threads = resources.AsyncThreadsResourceWithRawResponse(client.threads)
-        self.vector_stores = resources.AsyncVectorStoresResourceWithRawResponse(client.vector_stores)
-        self.batches = resources.AsyncBatchesResourceWithRawResponse(client.batches)
-        self.organization = resources.AsyncOrganizationResourceWithRawResponse(client.organization)
-        self.projects = resources.AsyncProjectsResourceWithRawResponse(client.projects)
 
 
 class OmnistackWithStreamedResponse:
     def __init__(self, client: Omnistack) -> None:
         self.chats = resources.ChatsResourceWithStreamingResponse(client.chats)
         self.completions = resources.CompletionsResourceWithStreamingResponse(client.completions)
-        self.images = resources.ImagesResourceWithStreamingResponse(client.images)
-        self.embeddings = resources.EmbeddingsResourceWithStreamingResponse(client.embeddings)
-        self.audio = resources.AudioResourceWithStreamingResponse(client.audio)
-        self.files = resources.FilesResourceWithStreamingResponse(client.files)
-        self.uploads = resources.UploadsResourceWithStreamingResponse(client.uploads)
-        self.fine_tuning = resources.FineTuningResourceWithStreamingResponse(client.fine_tuning)
-        self.models = resources.ModelsResourceWithStreamingResponse(client.models)
-        self.moderations = resources.ModerationsResourceWithStreamingResponse(client.moderations)
-        self.assistants = resources.AssistantsResourceWithStreamingResponse(client.assistants)
-        self.threads = resources.ThreadsResourceWithStreamingResponse(client.threads)
-        self.vector_stores = resources.VectorStoresResourceWithStreamingResponse(client.vector_stores)
-        self.batches = resources.BatchesResourceWithStreamingResponse(client.batches)
-        self.organization = resources.OrganizationResourceWithStreamingResponse(client.organization)
-        self.projects = resources.ProjectsResourceWithStreamingResponse(client.projects)
 
 
 class AsyncOmnistackWithStreamedResponse:
     def __init__(self, client: AsyncOmnistack) -> None:
         self.chats = resources.AsyncChatsResourceWithStreamingResponse(client.chats)
         self.completions = resources.AsyncCompletionsResourceWithStreamingResponse(client.completions)
-        self.images = resources.AsyncImagesResourceWithStreamingResponse(client.images)
-        self.embeddings = resources.AsyncEmbeddingsResourceWithStreamingResponse(client.embeddings)
-        self.audio = resources.AsyncAudioResourceWithStreamingResponse(client.audio)
-        self.files = resources.AsyncFilesResourceWithStreamingResponse(client.files)
-        self.uploads = resources.AsyncUploadsResourceWithStreamingResponse(client.uploads)
-        self.fine_tuning = resources.AsyncFineTuningResourceWithStreamingResponse(client.fine_tuning)
-        self.models = resources.AsyncModelsResourceWithStreamingResponse(client.models)
-        self.moderations = resources.AsyncModerationsResourceWithStreamingResponse(client.moderations)
-        self.assistants = resources.AsyncAssistantsResourceWithStreamingResponse(client.assistants)
-        self.threads = resources.AsyncThreadsResourceWithStreamingResponse(client.threads)
-        self.vector_stores = resources.AsyncVectorStoresResourceWithStreamingResponse(client.vector_stores)
-        self.batches = resources.AsyncBatchesResourceWithStreamingResponse(client.batches)
-        self.organization = resources.AsyncOrganizationResourceWithStreamingResponse(client.organization)
-        self.projects = resources.AsyncProjectsResourceWithStreamingResponse(client.projects)
 
 
 Client = Omnistack
