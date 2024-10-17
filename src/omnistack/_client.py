@@ -79,13 +79,13 @@ class Omnistack(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous omnistack client instance.
 
-        This automatically infers the `bearer_token` argument from the `BEARER_TOKEN` environment variable if it is not provided.
+        This automatically infers the `bearer_token` argument from the `OMNISTACK_API_KEY` environment variable if it is not provided.
         """
         if bearer_token is None:
-            bearer_token = os.environ.get("BEARER_TOKEN")
+            bearer_token = os.environ.get("OMNISTACK_API_KEY")
         if bearer_token is None:
             raise OmnistackError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the BEARER_TOKEN environment variable"
+                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the OMNISTACK_API_KEY environment variable"
             )
         self.bearer_token = bearer_token
 
@@ -249,13 +249,13 @@ class AsyncOmnistack(AsyncAPIClient):
     ) -> None:
         """Construct a new async omnistack client instance.
 
-        This automatically infers the `bearer_token` argument from the `BEARER_TOKEN` environment variable if it is not provided.
+        This automatically infers the `bearer_token` argument from the `OMNISTACK_API_KEY` environment variable if it is not provided.
         """
         if bearer_token is None:
-            bearer_token = os.environ.get("BEARER_TOKEN")
+            bearer_token = os.environ.get("OMNISTACK_API_KEY")
         if bearer_token is None:
             raise OmnistackError(
-                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the BEARER_TOKEN environment variable"
+                "The bearer_token client option must be set either by passing bearer_token to the client or by setting the OMNISTACK_API_KEY environment variable"
             )
         self.bearer_token = bearer_token
 

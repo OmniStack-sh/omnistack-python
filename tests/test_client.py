@@ -341,7 +341,7 @@ class TestOmnistack:
         assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
         with pytest.raises(OmnistackError):
-            with update_env(**{"BEARER_TOKEN": Omit()}):
+            with update_env(**{"OMNISTACK_API_KEY": Omit()}):
                 client2 = Omnistack(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 
@@ -1126,7 +1126,7 @@ class TestAsyncOmnistack:
         assert request.headers.get("Authorization") == f"Bearer {bearer_token}"
 
         with pytest.raises(OmnistackError):
-            with update_env(**{"BEARER_TOKEN": Omit()}):
+            with update_env(**{"OMNISTACK_API_KEY": Omit()}):
                 client2 = AsyncOmnistack(base_url=base_url, bearer_token=None, _strict_response_validation=True)
             _ = client2
 
