@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2024-11-12)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/OmniStack-sh/omnistack-python/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Features
+
+* **api:** api update ([#11](https://github.com/OmniStack-sh/omnistack-python/issues/11)) ([b575f9a](https://github.com/OmniStack-sh/omnistack-python/commit/b575f9a658e0223947ad94155262287a47da185f))
+
+
+### Chores
+
+* rebuild project due to codegen change ([#13](https://github.com/OmniStack-sh/omnistack-python/issues/13)) ([04f25d9](https://github.com/OmniStack-sh/omnistack-python/commit/04f25d91e512063832092b8e978007e7c0fa209a))
+* rebuild project due to codegen change ([#14](https://github.com/OmniStack-sh/omnistack-python/issues/14)) ([5ddefaf](https://github.com/OmniStack-sh/omnistack-python/commit/5ddefaf1b06efea26327550eba2a4587afccf5c1))
+* rebuild project due to codegen change ([#15](https://github.com/OmniStack-sh/omnistack-python/issues/15)) ([e6b633c](https://github.com/OmniStack-sh/omnistack-python/commit/e6b633c0564978c6892a44bfc674b46846b6f33b))
+* rebuild project due to codegen change ([#16](https://github.com/OmniStack-sh/omnistack-python/issues/16)) ([9bac6c8](https://github.com/OmniStack-sh/omnistack-python/commit/9bac6c8aa24352ddb2b4bfe12ae6a471af74cf52))
+
 ## 0.1.0-alpha.2 (2024-10-17)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/OmniStack-sh/omnistack-python/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
