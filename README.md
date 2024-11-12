@@ -28,8 +28,7 @@ import os
 from omnistack import Omnistack
 
 client = Omnistack(
-    # This is the default and can be omitted
-    api_key=os.environ.get("OMNISTACK_API_KEY"),
+    api_key=os.environ.get("OMNISTACK_API_KEY"),  # This is the default and can be omitted
 )
 
 completion = client.completions.create(
@@ -54,8 +53,7 @@ import asyncio
 from omnistack import AsyncOmnistack
 
 client = AsyncOmnistack(
-    # This is the default and can be omitted
-    api_key=os.environ.get("OMNISTACK_API_KEY"),
+    api_key=os.environ.get("OMNISTACK_API_KEY"),  # This is the default and can be omitted
 )
 
 
